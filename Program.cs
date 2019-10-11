@@ -10,11 +10,13 @@ namespace mySparkApp
              // Create a Spark session
             var spark = SparkSession
                 .Builder()
-                .AppName("word_count_sample")
+                .AppName("post_analysis")
                 .GetOrCreate();
 
             // Create initial DataFrame
-            DataFrame dataFrame = spark.Read().Text(@"C:\source\jmarolf\mySparkApp\input.txt");
+            DataFrame dataFrame = spark.Read()
+                .Schema("@Id INT, @PostTypeId INT, @CreationDate STRING, @Score INT, @ViewCount INT, @Body STRING, @OwnerUserId INT, @LastActivityDate STRING, @Title STRING, @Tags STRING, @AnswerCount INT, @CommentCount INT, @FavoriteCount INT")
+                .Json(@"C:\data\3dprinting.meta.stackexchange.com\Posts.json");
 
             // Count words
             var words = dataFrame
